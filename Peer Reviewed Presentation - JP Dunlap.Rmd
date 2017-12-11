@@ -1,0 +1,67 @@
+---
+title: "NFL Cities"
+author: "JP Dunlap"
+date: "December 11, 2017"
+output: ioslides_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Week 2 Assignment - R Markdown and Leaflet
+
+This presentation is in fulfillment of the Week 2 Assignment for Developing Data Products
+
+-Create a web page using R Markdown that features a map created with Leaflet.
+
+-Host your webpage on either GitHub Pages, RPubs, or NeoCities.
+
+-Your webpage must contain the date that you created the document, and it must contain a map created with Leaflet. We would love to see you show off your creativity!
+
+## Week 2 Assignment (continued)
+
+
+The following slide is a map of all of the current NFL teams based on the location of their home stadium. The shape of the symbol indicates the conference, and the color indicates the division. The size of the symbol indicates the number of wins as of Sunday, November 10.
+
+We have left Echo = TRUE to show the code.
+
+##
+```{r load_data}
+
+
+setwd("C:/Users/Dr. Jeff Dunlap/Google Drive/coursera/Data Science Course/Course Materials/9-Developing_Data_Products-master/Week 2/Peer Reviewed Project")
+
+nflData <- read.csv("NFL Stadium Locations.csv")
+head(nflData)
+
+```
+##
+
+```{r build_map}
+
+require(leaflet)
+
+div.pal <- colorFactor(c("navy","red","green","brown"), domain = c("East","West","South","North"))
+confIcons <- icons(
+  iconUrl = ifelse(nflData$Conference == "AFC","AFC.png","NFC.png"),
+  iconWidth = 20, iconHeight = 20,
+  iconAnchorX = 10, iconAnchorY = 10)
+nflData$teamLabel <- paste(nflData$Team,"<br>",nflData$Conference,"<br>",
+  nflData$Division,"<br>","Wins so far:",nflData$Wins.in.2017, sep = "")
+```
+
+## Map of NFL Team
+Click icons for more information
+```{r map, echo=FALSE}
+leaflet(data = nflData) %>% 
+      addTiles() %>%
+      addMarkers(nflData$longitude, nflData$latitude, icon = confIcons, 
+                 popup = nflData$teamLabel,
+                 clusterOptions = markerClusterOptions(freezeAtZoom = 7))
+
+```
+
+
+
+
