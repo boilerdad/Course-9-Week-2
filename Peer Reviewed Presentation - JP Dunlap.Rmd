@@ -32,7 +32,7 @@ We have left Echo = TRUE to show the code.
 
 setwd("C:/Users/Dr. Jeff Dunlap/Google Drive/coursera/Data Science Course/Course Materials/9-Developing_Data_Products-master/Week 2/Peer Reviewed Project")
 
-nflData <- read.csv("NFL Stadium Locations.csv")
+nflData <- read.csv("NFLStadiumLocations.csv")
 head(nflData)
 
 ```
